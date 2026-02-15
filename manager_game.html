@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baptiste Lotodé | McDonald's Strategic Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --crimson: #990000; --anthracite: #0d0d0d; --glass-border: rgba(255, 255, 255, 0.08); }
+        body { background-color: var(--anthracite); color: #f8fafc; margin: 0; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        
+        /* Glassmorphism UI Komponenten */
+        .glass-panel { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(25px); border: 1px solid var(--glass-border); }
+        .progress-container { height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden; }
+        .progress-bar { height: 100%; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        /* Entscheidungs-Karten Design */
+        .decision-card { transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); cursor: pointer; border: 1px solid var(--glass-border); }
+        .decision-card:hover { transform: scale(1.02); background: rgba(153, 0, 0, 0.05); border-color: var(--crimson); }
+        
+        /* Event-Alarm Pulsierung */
+        .event-alert { animation: pulse-red 2s infinite; border: 1px solid var(--crimson) !important; }
+        @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(153, 0, 0, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(153, 0, 0, 0); } 100% { box-shadow: 0 0 0 0 rgba(153, 0, 0, 0); } }
+
+        /* Schwebendes Feedback für KPIs */
+        @keyframes floatText { 0% { opacity: 0; transform: translateY(0); } 20% { opacity: 1; } 100% { opacity: 0; transform: translateY(-100px); } }
+        .floating-feedback { position: fixed; pointer-events: none; z-index: 100; font-weight: 900; font-style: italic; animation: floatText 1s ease-out forwards; }
+        
+        .start-overlay {
+            position: fixed; inset: 0; z-index: 100;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #0d0d0d 100%);
+            display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.8s ease;
+        }
+
+        .audio-toggle {
+            position: fixed; bottom: 30px; right: 30px; z-index: 150;
+            width: 50px; height: 50px; border-radius: 50%;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s;
+        }
+        .audio-toggle:hover { background: var(--crimson); transform: scale(1.1); }
+
+        .kpi-up { color: #10b981; }
+        .kpi-down { color: #ef4444; }
+        
+        @keyframes screenShake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-10px); }
+            40%, 80% { transform: translateX(10px); }
+        }
+        .shake { animation: screenShake 0.4s ease-in-out; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col" id="game-body">
+
+    <!-- Audio Engine -->
+    <audio id="bg-music" loop preload="auto">
+        <source src="bg_music.mp3" type="audio/mpeg">
+        <!-- Fallback auf einen Cyberpunk-ähnlichen Ambient Track -->
+        <source src="https://assets.mixkit.co/music/preview/mixkit-tech-house-vibes-130.mp3" type="audio/mpeg">
+    </audio>
+    <!-- Kurze Click-Sounds für alle Aktionen -->
+    <audio id="snd-click" preload="auto" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
+
+    <div id="mute-btn" class="audio-toggle" onclick="toggleMusic()">
+        <i id="audio-icon" class="fas fa-volume-mute text-white/50"></i>
+    </div>
+
+    <!-- Start Screen Overlay -->
+    <div id="start-screen" class="start-overlay p-6">
+        <div class="max-w-3xl glass-panel p-12 rounded-[4rem] text-center shadow-2xl border-t-2 border-white/10">
+            <div class="w-20 h-20 bg-red-700/20 rounded-full flex items-center justify-center mx-auto mb-8 animate-pulse">
+                <i class="fas fa-hamburger text-red-700 text-3xl"></i>
+            </div>
+            <h1 class="text-5xl font-black uppercase italic tracking-tighter mb-6">KPI <span class="text-red-700">Mastermind</span></h1>
+            <p class="text-gray-400 text-sm mb-10 leading-relaxed max-w-xl mx-auto">
+                Ești noul Store Manager McDonald's. Timp de 12 săptămâni, vei gestiona operațiunile, bugetul și echipa. Echilibrează viteza Drive-Thru cu profitabilitatea și standardele de siguranță alimentară.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 text-left">
+                <div class="bg-white/5 p-5 rounded-3xl border border-white/5">
+                    <i class="fas fa-chart-pie text-emerald-500 mb-3"></i>
+                    <p class="text-[10px] font-black uppercase tracking-widest text-white">Profit & Loss</p>
+                    <p class="text-[9px] text-gray-500 mt-1">Gestionează Food Cost-ul și veniturile.</p>
+                </div>
+                <div class="bg-white/5 p-5 rounded-3xl border border-white/5">
+                    <i class="fas fa-id-badge text-orange-500 mb-3"></i>
+                    <p class="text-[10px] font-black uppercase tracking-widest text-white">Labor Optimization</p>
+                    <p class="text-[9px] text-gray-500 mt-1">Echilibrează schimburile și orele de vârf.</p>
+                </div>
+                <div class="bg-white/5 p-5 rounded-3xl border border-white/5">
+                    <i class="fas fa-utensils text-blue-500 mb-3"></i>
+                    <p class="text-[10px] font-black uppercase tracking-widest text-white">REV & Food Safety</p>
+                    <p class="text-[9px] text-gray-500 mt-1">Respectă standardele de aur Inditex/McDonald's.</p>
+                </div>
+            </div>
+
+            <button onclick="startGame()" class="bg-white text-black px-20 py-7 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-red-700 hover:text-white transition-all shadow-2xl active:scale-95">
+                Începe Mandatul
+            </button>
+            
+            <div class="mt-8 flex items-center justify-center gap-4">
+                <span id="audio-status" class="text-[9px] text-gray-600 uppercase tracking-widest italic">Verific sistemul audio...</span>
+                <div id="audio-indicator" class="w-2 h-2 rounded-full bg-gray-700"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 py-6 px-10 bg-black/60 backdrop-blur-lg border-b border-white/5">
+        <div class="max-w-7xl mx-auto flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.3em]">
+            <a href="index.html" class="text-2xl font-black tracking-tighter uppercase text-white">Baptiste <span class="text-red-700">Lotodé</span></a>
+            <div class="hidden md:flex space-x-8 items-center text-gray-400">
+                <a href="management.html" class="hover:text-red-700 transition">Management</a>
+                <a href="operations.html" class="hover:text-red-700 transition">Operations</a>
+                <a href="tech.html" class="hover:text-red-700 transition">Inovație</a>
+                <a href="game.html" class="hover:text-red-700 transition italic">Ops Challenge</a>
+                <a href="manager_game.html" class="text-red-500 italic underline">KPI Mastermind</a>
+                <a href="contact.html" class="bg-red-700 text-white px-6 py-2 rounded-full hover:bg-white hover:text-red-700 transition">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow pt-32 px-6 max-w-7xl mx-auto w-full pb-20">
+        <!-- Dashboard Summary -->
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-12">
+            <div class="lg:col-span-1">
+                <h1 class="text-3xl font-black uppercase italic tracking-tighter leading-none">KPI <br><span class="text-red-700">MASTERMIND</span></h1>
+                <p class="text-[9px] text-gray-500 font-bold uppercase tracking-widest mt-2">Săptămâna <span id="week-display">1</span>/12</p>
+                <div class="mt-4 bg-white/5 p-2 rounded-lg inline-block border border-white/10">
+                    <span id="month-label" class="text-[9px] font-black uppercase text-red-600 tracking-widest italic text-white">LUNA 1: INTEGRARE</span>
+                </div>
+            </div>
+            
+            <div class="glass-panel p-6 rounded-3xl">
+                <span class="text-[9px] uppercase font-bold text-gray-500 tracking-widest mb-1 block">Cash Flow (Buget)</span>
+                <div class="text-2xl font-black" id="budget-val">€10.000</div>
+                <div class="progress-container mt-2"><div id="budget-bar" class="progress-bar bg-emerald-600" style="width: 100%"></div></div>
+            </div>
+
+            <div class="glass-panel p-6 rounded-3xl">
+                <span class="text-[9px] uppercase font-bold text-gray-500 tracking-widest mb-1 block">Profit Acumulat</span>
+                <div class="text-2xl font-black" id="profit-val">€0</div>
+                <div class="progress-container mt-2"><div id="profit-bar" class="progress-bar bg-blue-500" style="width: 0%"></div></div>
+            </div>
+
+            <div class="glass-panel p-6 rounded-3xl">
+                <span class="text-[9px] uppercase font-bold text-gray-500 tracking-widest mb-1 block">Satisfacție Team</span>
+                <div class="text-2xl font-black" id="morale-val">80%</div>
+                <div class="progress-container mt-2"><div id="morale-bar" class="progress-bar bg-orange-500" style="width: 80%"></div></div>
+            </div>
+
+            <div class="glass-panel p-6 rounded-3xl">
+                <span class="text-[9px] uppercase font-bold text-gray-500 tracking-widest mb-1 block">Service Level (SLA)</span>
+                <div class="text-2xl font-black" id="sla-val">90%</div>
+                <div class="progress-container mt-2"><div id="sla-bar" class="progress-bar bg-red-700" style="width: 90%"></div></div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div class="lg:col-span-8 space-y-6">
+                <div id="main-interface" class="glass-panel p-10 rounded-[3rem] relative overflow-hidden border-t border-white/10 shadow-2xl">
+                    <div id="alert-zone" class="hidden mb-8 p-5 rounded-2xl bg-red-900/20 border border-red-700/50 flex items-center gap-6 event-alert">
+                        <i class="fas fa-satellite-dish text-red-600 text-2xl"></i>
+                        <div>
+                            <p id="event-title" class="text-xs font-black uppercase text-red-600 tracking-widest">ALERTA OPERAȚIONALĂ</p>
+                            <p id="event-desc" class="text-[11px] text-gray-400 mt-1 italic leading-tight"></p>
+                        </div>
+                    </div>
+
+                    <div class="mb-12">
+                        <h3 id="scenario-title" class="text-4xl font-black uppercase italic tracking-tighter">Decizie Strategică</h3>
+                        <p id="scenario-desc" class="text-gray-400 text-sm mt-4 leading-relaxed max-w-2xl"></p>
+                    </div>
+
+                    <div id="decision-container" class="grid grid-cols-1 gap-4"></div>
+
+                    <div id="next-step-container" class="hidden mt-12 text-center">
+                        <button onclick="advanceWeek()" class="bg-white text-black px-16 py-6 rounded-2xl font-black uppercase text-[10px] tracking-widest hover:bg-red-700 hover:text-white transition-all shadow-2xl group">
+                            Procesează Rezultatele <i class="fas fa-chart-line ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-4 space-y-6 text-white">
+                <div class="glass-panel p-8 rounded-[3rem] border-l-4 border-red-700 h-full flex flex-col min-h-[400px]">
+                    <h4 class="text-[10px] font-black uppercase text-gray-500 tracking-widest mb-6">Live Intelligence</h4>
+                    <div id="impact-summary" class="space-y-4 mb-8">
+                        <p class="text-[11px] text-gray-500 italic">Selectează o strategie pentru a vedea proiecția KPI.</p>
+                    </div>
+                    
+                    <div class="mt-auto border-t border-white/5 pt-8">
+                        <h4 class="text-[10px] font-black uppercase text-gray-500 tracking-widest mb-4">Exec Log</h4>
+                        <div id="exec-log" class="space-y-2 max-h-48 overflow-y-auto pr-2 text-[9px] font-mono text-gray-600">
+                            <p>> System ready. Initializing McDonald's Q1...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let state = {
+            week: 1, budget: 10000, profit: 0, morale: 80, sla: 90,
+            gameActive: false, awaitingAcknowledge: false, isMuted: true
+        };
+
+        const bgMusic = document.getElementById('bg-music');
+        const audioIndicator = document.getElementById('audio-indicator');
+        const audioStatus = document.getElementById('audio-status');
+
+        bgMusic.oncanplaythrough = () => {
+            audioIndicator.className = "w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]";
+            audioStatus.innerText = "Sistem audio pregătit";
+        };
+
+        // McDonald's Specific Scenarios
+        const scenarios = [
+            { id: 1, title: "Optimizare Staffing Peak", desc: "Costul muncii a depășit targetul în orele de prânz. Cum ajustezi planificarea?", options: [
+                { text: "Lean Shift: Reducem turele suport de la Pack.", impact: { budget: 1500, profit: 500, morale: -15, sla: -15 }, log: "Economii la labor, dar timpii de servire au explodat." },
+                { text: "Cross-Training: Policalificare pentru Grill & Drive.", impact: { budget: -1500, profit: 300, morale: 10, sla: 10 }, log: "Echipa este versatilă. Viteza Drive-Thru crește." },
+                { text: "Status Quo: Menținem echipa completă.", impact: { budget: -500, profit: 0, morale: 5, sla: 5 }, log: "Serviciu excelent, dar profitul scade sub presiune." }
+            ]},
+            { id: 2, title: "Upgrade Digital (Kiosks)", desc: "Dorești să instalezi noua generație de kioscuri de comandă?", options: [
+                { text: "Full Rollout: Instalare totală în lobby.", impact: { budget: -4500, profit: 1000, morale: -5, sla: 25 }, log: "Viteză de comandă record. Clienții sunt încântați." },
+                { text: "Partial: Upgrade doar pentru 2 unități.", impact: { budget: -2000, profit: 400, morale: 0, sla: 10 }, log: "Tranziție moderată, flux stabilizat." },
+                { text: "Manual: Păstrăm casele clasice.", impact: { budget: 500, profit: -500, morale: -10, sla: -20 }, log: "Cozile cresc, pierdem clienții tineri." }
+            ]},
+            { id: 3, title: "Audit Food Safety (REV)", desc: "Urmează vizita REV pentru auditul siguranței alimentare.", options: [
+                { text: "Total Compliance: Verificăm temperaturile (UHC/Grill).", impact: { budget: -800, profit: 0, morale: -10, sla: 30 }, log: "Audit trecut cu scor maxim. Standarde impecabile." },
+                { text: "Visual Prep: Focus pe curățenie lobby.", impact: { budget: -300, profit: 400, morale: 5, sla: 10 }, log: "Magazinul arată bine, dar documentația e slabă." },
+                { text: "Delegare rapidă pe schimburi.", impact: { budget: 0, profit: 800, morale: -5, sla: -15 }, log: "Audit la limită. Risc pe igienă." }
+            ]},
+            { id: 4, title: "Dezvoltare Schichtleiter", desc: "Avem nevoie de un nou Manager de Schimb. Ce alegi?", options: [
+                { text: "Intern: Promovăm un Crew Trainer.", impact: { budget: -500, profit: 200, morale: 25, sla: 5 }, log: "Plan de carieră respectat. Echipa e motivată." },
+                { text: "Extern: Recrutăm un manager cu experiență.", impact: { budget: -1500, profit: 600, morale: -15, sla: 15 }, log: "Competențe noi, dar integrare dificilă." },
+                { text: "Delegate: Tu preiei schimburile lipsă.", impact: { budget: 1000, profit: 1000, morale: -30, sla: -20 }, log: "Profit mare, dar riscul de burnout managerial e critic." }
+            ]},
+            { id: 5, title: "Managementul Waste-ului (VCM)", desc: "Rata de pierderi la bin este peste standard. Ce măsuri iei?", options: [
+                { text: "Strict Cooking: Gătim doar la comandă.", impact: { budget: 2000, profit: 1000, morale: 0, sla: -35 }, log: "Waste zero, dar timpii de așteptare sunt inacceptabili." },
+                { text: "VCM: Optimizăm graficele de producție.", impact: { budget: -500, profit: 800, morale: 5, sla: 10 }, log: "Echilibru între prospețime și viteză." },
+                { text: "Instruire Crew: Focus pe porționare.", impact: { budget: -1000, profit: 400, morale: 10, sla: 5 }, log: "Eficiență crescută în bucătărie." }
+            ]},
+            { id: 6, title: "McDelivery Integration", desc: "Comenzile online blochează linia de asamblare în vârf de prânz.", options: [
+                { text: "Dispatch Hub: Zonă separată de ridicare.", impact: { budget: -2000, profit: 2000, morale: 10, sla: 15 }, log: "Flux fluidizat. Curierii nu mai aglomerează lobby-ul." },
+                { text: "Priority Lobby: Clienții din store primii.", impact: { budget: 0, profit: -1000, morale: 5, sla: -20 }, log: "Rating scăzut pe Glovo/Bolt. Pierdem vizibilitate." },
+                { text: "Staff suplimentar pe linia de assembly.", impact: { budget: -1500, profit: 1200, morale: -10, sla: 10 }, log: "Viteză bună, dar costuri labor ridicate." }
+            ]},
+            { id: 7, title: "Peak Season: Monopoly", desc: "Începe campania Monopoly. Cum pregătești restaurantul?", options: [
+                { text: "Full Prep: Suplimentăm stocul și staff-ul.", impact: { budget: -3000, profit: 5000, morale: -15, sla: 15 }, log: "Vânzări record. Succes comercial major." },
+                { text: "Lean Launch: Fără ore suplimentare.", impact: { budget: 0, profit: 2000, morale: -30, sla: -40 }, log: "Haos în restaurant. Clienți nemulțumiți." },
+                { text: "Digital Focus: Oferte App Exclusive.", impact: { budget: -1000, profit: 3000, morale: 5, sla: 10 }, log: "Viteza digitală a salvat situația." }
+            ]},
+            { id: 8, title: "Sustenabilitate (Recycling)", desc: "Introducem sortarea selectivă a deșeurilor în lobby.", options: [
+                { text: "Smart Bins: Investiție în stații moderne.", impact: { budget: -2500, profit: 1200, morale: 10, sla: 0 }, log: "Imagine de brand excelentă. Reducem taxa de mediu." },
+                { text: "Manual Sort: Staff-ul sortează în spate.", impact: { budget: 0, profit: 400, morale: -25, sla: -5 }, log: "Echipa urăște procesul. Risc de contaminare." },
+                { text: "Postere de conștientizare clienți.", impact: { budget: -500, profit: 200, morale: 5, sla: 5 }, log: "Efort vizual bun, rezultate minime." }
+            ]},
+            { id: 9, title: "Incentive & OSAT Score", desc: "Decizi distribuirea bonusurilor bazate pe OSAT (Satisfacție Client).", options: [
+                { text: "Balanced: Bonus pentru scor > 80%.", impact: { budget: -1500, profit: 400, morale: 20, sla: 20 }, log: "Echipa oferă servicii excelente pentru bonus." },
+                { text: "Financial: Bonus fix pentru tot staff-ul.", impact: { budget: -3000, profit: 0, morale: 40, sla: 5 }, log: "Moral maxim, impact financiar sever." },
+                { text: "Reinvestiție în mentenanță echipamente.", impact: { budget: 1000, profit: 1200, morale: -30, sla: 10 }, log: "Echipamente noi, dar moral scăzut." }
+            ]},
+            { id: 10, title: "Supply Chain (Havi)", desc: "Lipsă stoc la cartofii prăjiți de la furnizorul Havi.", options: [
+                { text: "Inter-store transfer: Împrumutăm.", impact: { budget: -1000, profit: 500, morale: -5, sla: 20 }, log: "SLA salvat. Clienții nu au observat problema." },
+                { text: "Promo Adjustment: Promovăm salatele.", impact: { budget: 0, profit: -1500, morale: 0, sla: -20 }, log: "Pierdere de vânzări la meniurile clasice." },
+                { text: "Wait & See: Așteptăm livrarea normală.", impact: { budget: 0, profit: -3000, morale: -10, sla: -45 }, log: "Dezastru operațional. Reclamații masive." }
+            ]},
+            { id: 11, title: "McCafé Expansion", desc: "Vrem să creștem cota de piață pe segmentul de cafea.", options: [
+                { text: "Bundle Strategy: Cafea + Patiserie.", impact: { budget: -500, profit: 1800, morale: 5, sla: 10 }, log: "Cross-sell eficient. Profit în creștere." },
+                { text: "Sampling: Degustare gratuită în lobby.", impact: { budget: -1200, profit: 1000, morale: 10, sla: -5 }, log: "Trafic nou atras, presiune pe personal." },
+                { text: "Upgrade Espressor: Investiție tech.", impact: { budget: -3000, profit: 500, morale: 0, sla: 15 }, log: "Calitate superioară, amortizare lentă." }
+            ]},
+            { id: 12, title: "Final Trimestru: Excellence", desc: "Prioritatea finală pentru închiderea trimestrului.", options: [
+                { text: "People First: Wellness și relaxare.", impact: { budget: -2000, profit: 1000, morale: 50, sla: 20 }, log: "Cea mai bună echipă pregătită pentru anul viitor." },
+                { text: "Profit Max: Reducem mentenanța externă.", impact: { budget: 3000, profit: 5000, morale: -40, sla: -30 }, log: "Cifre record, magazin în colaps tehnic." },
+                { text: "Standarde de Aur: Audit final perfect.", impact: { budget: -1200, profit: 800, morale: 10, sla: 45 }, log: "Excelență operațională recunoscută de regiune." }
+            ]}
+        ];
+
+        const events = [
+            { title: "Defecțiune Grill", desc: "Grill-ul s-a oprit în rush. Timp dublu de servire.", impact: { budget: -1500, sla: -25, morale: -10 } },
+            { title: "Viral pe TikTok", desc: "Store-ul tău a fost lăudat online. Trafic masiv!", impact: { profit: 4000, sla: -20, morale: -15 } },
+            { title: "Întârziere Havi", desc: "Camionul cu marfă proaspătă întârzie 24h.", impact: { profit: -2500, sla: -30, morale: -5 } },
+            { title: "Feedback OSAT 100%", desc: "Am primit scor maxim de la clienți azi!", impact: { morale: 20, sla: 10, profit: 1000 } }
+        ];
+
+        function toggleMusic() {
+            if(bgMusic.paused) {
+                bgMusic.play().catch(() => {});
+                document.getElementById('audio-icon').className = "fas fa-volume-up text-red-600";
+                state.isMuted = false;
+            } else {
+                bgMusic.pause();
+                document.getElementById('audio-icon').className = "fas fa-volume-mute text-white/50";
+                state.isMuted = true;
+            }
+        }
+
+        function startGame() {
+            state.gameActive = true;
+            document.getElementById('start-screen').style.opacity = '0';
+            
+            // Audio mit kurzem Tactical Click
+            document.getElementById('snd-click').play().catch(()=>{});
+            
+            bgMusic.play().then(() => {
+                document.getElementById('audio-icon').className = "fas fa-volume-up text-red-600";
+                state.isMuted = false;
+            }).catch(() => { state.isMuted = true; });
+
+            setTimeout(() => {
+                document.getElementById('start-screen').style.display = 'none';
+                loadWeek();
+                updateUI();
+            }, 800);
+        }
+
+        function updateUI() {
+            document.getElementById('week-display').innerText = state.week;
+            document.getElementById('budget-val').innerText = "€" + state.budget.toLocaleString();
+            document.getElementById('profit-val').innerText = "€" + state.profit.toLocaleString();
+            document.getElementById('morale-val').innerText = state.morale + "%";
+            document.getElementById('sla-val').innerText = state.sla + "%";
+
+            document.getElementById('budget-bar').style.width = Math.min(100, Math.max(0, (state.budget / 15000) * 100)) + "%";
+            document.getElementById('profit-bar').style.width = Math.min(100, Math.max(0, (state.profit / 45000) * 100)) + "%";
+            document.getElementById('morale-bar').style.width = state.morale + "%";
+            document.getElementById('sla-bar').style.width = state.sla + "%";
+
+            const month = Math.ceil(state.week / 4);
+            const labels = ["Planificare & Integrare", "Optimizare Flux", "Performanță Maximă"];
+            document.getElementById('month-label').innerText = `LUNA ${month}: ${labels[month-1]}`;
+            
+            if(state.morale < 20) endGame("Management Eșuat! Echipa a intrat în grevă.");
+            if(state.budget < -5000) endGame("Faliment! Ai epuizat resursele financiare.");
+        }
+
+        function loadWeek() {
+            const container = document.getElementById('decision-container');
+            container.innerHTML = "";
+            document.getElementById('next-step-container').classList.add('hidden');
+            document.getElementById('alert-zone').classList.add('hidden');
+
+            const scenario = scenarios[state.week - 1];
+            document.getElementById('scenario-title').innerText = scenario.title;
+            document.getElementById('scenario-desc').innerText = scenario.desc;
+
+            scenario.options.forEach(opt => {
+                const div = document.createElement('div');
+                div.className = "decision-card glass-panel p-6 rounded-3xl flex justify-between items-center group";
+                div.innerHTML = `
+                    <div class="pr-4">
+                        <p class="text-xs font-black uppercase text-white mb-1 tracking-widest">${opt.text}</p>
+                        <p class="text-[10px] text-gray-500 italic">Analizează impactul strategic</p>
+                    </div>
+                    <i class="fas fa-arrow-right text-red-700 opacity-0 group-hover:opacity-100 transition-all"></i>
+                `;
+                div.onclick = (e) => {
+                    document.getElementById('snd-click').play().catch(()=>{});
+                    selectDecision(opt, e);
+                };
+                container.appendChild(div);
+            });
+        }
+
+        function selectDecision(opt, e) {
+            applyImpact(opt.impact, e);
+            logEntry(`Săpt ${state.week}: ${opt.log}`, "text-white");
+            showImpactSummary(opt.impact);
+
+            document.getElementById('decision-container').innerHTML = `
+                <div class="p-16 text-center border-2 border-dashed border-red-700/30 rounded-[4rem] bg-red-900/5">
+                    <i class="fas fa-check-circle text-red-700 text-4xl mb-4"></i>
+                    <p class="text-xs font-black uppercase text-red-700 tracking-[0.3em]">Strategie Aprobată</p>
+                </div>
+            `;
+            document.getElementById('next-step-container').classList.remove('hidden');
+        }
+
+        function applyImpact(impact, e) {
+            state.budget += impact.budget || 0;
+            state.profit += impact.profit || 0;
+            state.morale = Math.max(0, Math.min(100, state.morale + (impact.morale || 0)));
+            state.sla = Math.max(0, Math.min(100, state.sla + (impact.sla || 0)));
+            
+            if(impact.profit > 0) createFloatingText('+' + impact.profit + '€', '#10b981', e);
+            if(impact.morale < 0) createFloatingText(impact.morale + '%', '#ef4444', e);
+            updateUI();
+        }
+
+        function createFloatingText(text, color, event) {
+            const el = document.createElement('div');
+            el.className = 'floating-feedback';
+            el.style.left = (event.clientX || window.innerWidth/2) + 'px';
+            el.style.top = (event.clientY || window.innerHeight/2) + 'px';
+            el.style.color = color; el.innerText = text;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 1000);
+        }
+
+        function logEntry(msg, colorClass) {
+            const p = document.createElement('p'); p.className = colorClass || "";
+            p.innerText = `> ${msg}`;
+            document.getElementById('exec-log').prepend(p);
+        }
+
+        function showImpactSummary(impact) {
+            const container = document.getElementById('impact-summary');
+            container.innerHTML = `<p class="text-[10px] font-black uppercase mb-4 text-gray-500 tracking-widest">Impact Proiectat:</p>`;
+            for(let k in impact) {
+                if(impact[k] === 0) continue;
+                const sign = impact[k] > 0 ? "+" : "";
+                const color = impact[k] > 0 ? "kpi-up" : "kpi-down";
+                const row = document.createElement('div');
+                row.className = "flex justify-between text-[11px] font-bold border-b border-white/5 pb-2";
+                row.innerHTML = `<span class="uppercase opacity-50 tracking-widest">${k}</span> <span class="${color}">${sign}${impact[k]}</span>`;
+                container.appendChild(row);
+            }
+        }
+
+        function advanceWeek() {
+            if(!state.awaitingAcknowledge && Math.random() < 0.35) {
+                triggerRandomEvent();
+                return;
+            }
+            state.week++; state.awaitingAcknowledge = false;
+            if(state.week > 12) { endGame("Mandat de trimestru finalizat!"); return; }
+            
+            if((state.week - 1) % 4 === 0) {
+                const bonus = state.sla > 85 ? 3000 : 1000;
+                state.budget += bonus;
+                logEntry(`BONUS LUNAR: €${bonus} (SLA Performance)`, "text-emerald-500 font-black");
+                document.getElementById('game-body').classList.add('shake');
+                setTimeout(() => document.getElementById('game-body').classList.remove('shake'), 400);
+            }
+            loadWeek(); updateUI();
+        }
+
+        function triggerRandomEvent() {
+            state.awaitingAcknowledge = true;
+            const ev = events[Math.floor(Math.random() * events.length)];
+            // Kurzer Click statt Sirene
+            document.getElementById('snd-click').play().catch(()=>{});
+            document.getElementById('alert-zone').classList.remove('hidden');
+            document.getElementById('event-title').innerText = `URGENT: ${ev.title}`;
+            document.getElementById('event-desc').innerText = ev.desc;
+            applyImpact(ev.impact, {clientX: window.innerWidth/2, clientY: window.innerHeight/2});
+            logEntry(`ALERTA: ${ev.title}`, "text-red-500 font-bold");
+            document.getElementById('next-step-container').innerHTML = `
+                <button onclick="advanceWeek()" class="bg-red-700 text-white px-16 py-6 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-white hover:text-red-700 transition-all shadow-2xl">Am înțeles impactul</button>
+            `;
+        }
+
+        function endGame(msg) {
+            state.gameActive = false;
+            let rank = state.profit > 30000 ? "Regional Expert Manager" : (state.profit > 18000 ? "Senior Store Manager" : "Junior Manager");
+            document.getElementById('main-interface').innerHTML = `
+                <div class="text-center py-10">
+                    <h2 class="text-6xl font-black uppercase italic mb-6 text-red-700 tracking-tighter">${rank}</h2>
+                    <p class="text-gray-400 mb-12 font-bold text-sm tracking-widest">${msg}<br>Profit Final: €${state.profit.toLocaleString()}</p>
+                    <div class="grid grid-cols-2 gap-4 mb-12">
+                        <div class="glass-panel p-6 rounded-3xl">
+                             <p class="text-[9px] uppercase text-gray-500 font-bold mb-1">Qualitate Finală</p>
+                             <p class="text-2xl font-black">${state.sla}%</p>
+                        </div>
+                        <div class="glass-panel p-6 rounded-3xl">
+                             <p class="text-[9px] uppercase text-gray-500 font-bold mb-1">Moral Final</p>
+                             <p class="text-2xl font-black">${state.morale}%</p>
+                        </div>
+                    </div>
+                    <button onclick="location.reload()" class="bg-white text-black px-20 py-7 rounded-2xl font-black uppercase text-xs hover:bg-red-700 hover:text-white transition-all tracking-widest">Restart Simulation</button>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
