@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baptiste Lotodé | Operations Masterclass</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --crimson: #990000; --anthracite: #121212; }
+        body { background-color: var(--anthracite); color: #f8fafc; margin: 0; overflow-x: hidden; }
+        .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.4s ease; }
+        .glass:hover { border-color: var(--crimson); background: rgba(153, 0, 0, 0.03); }
+        .text-outline { -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1); color: transparent; }
+        
+        .pulse-node {
+            width: 10px; height: 10px; background: var(--crimson); border-radius: 50%;
+            display: inline-block; margin-right: 10px; animation: pulse-red 2s infinite;
+        }
+        @keyframes pulse-red {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(153, 0, 0, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(153, 0, 0, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(153, 0, 0, 0); }
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+<nav class="fixed w-full z-50 py-6 px-10 bg-black/40 backdrop-blur-lg border-b border-white/5">
+    <div class="max-w-7xl mx-auto flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.3em]">
+        <a href="index.html" class="text-2xl font-black tracking-tighter uppercase">Baptiste <span class="text-red-700">Lotodé</span></a>
+        <div class="hidden md:flex space-x-10 items-center">
+            <a href="management.html" class="hover:text-red-700 transition">Management</a>
+            <a href="operations.html" class="hover:text-red-700 transition">Operations</a>
+            <a href="tech.html" class="hover:text-red-700 transition">Inovație</a>
+            <a href="game.html" class="hover:text-red-700 transition text-red-500 italic">Ops Challenge</a>
+            <a href="contact.html" class="bg-red-700 text-white px-6 py-2 rounded-full hover:bg-white hover:text-red-700 transition">Contact</a>
+        </div>
+    </div>
+</nav>
+
+    <header class="pt-48 pb-20 text-center relative">
+        <div class="absolute top-20 left-1/2 -translate-x-1/2 text-[15rem] font-black text-outline uppercase select-none pointer-events-none z-0">Method</div>
+        <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter italic z-10 relative">Operations <br><span class="text-red-700">Playbook</span></h1>
+        <p class="text-gray-500 mt-6 uppercase tracking-widest font-bold text-sm">Strategii de execuție pentru volume mari și standarde de elită</p>
+    </header>
+
+    <section class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8 pb-20">
+        <div class="glass p-10 rounded-[3rem] border-l-4 border-red-700">
+            <h3 class="text-xl font-black uppercase mb-4 italic">Managementul KPI</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-6">Analiza în timp real a indicatorilor **SLA** și **OEPE**. Nu doar urmăresc cifrele, ci le anticipez prin recalibrarea constantă a echipei pentru a evita blocajele în orele de vârf.</p>
+            <div class="flex items-center text-[10px] font-bold text-red-700 uppercase tracking-widest">
+                <i class="fas fa-microchip mr-2"></i> Data-Driven Leadership
+            </div>
+        </div>
+
+        <div class="glass p-10 rounded-[3rem] border-l-4 border-gray-700">
+            <h3 class="text-xl font-black uppercase mb-4 italic">Integritatea Stocului</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-6">Implementarea riguroasă a standardelor **FIFO** și **HACCP**. Gestionarea fluxurilor logistice pentru a garanta că fiecare articol este la locul potrivit, optimizând rotația și reducând pierderile.</p>
+            <div class="flex items-center text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                <i class="fas fa-boxes mr-2"></i> Supply Chain Precision
+            </div>
+        </div>
+
+        <div class="glass p-10 rounded-[3rem] border-l-4 border-gray-700">
+            <h3 class="text-xl font-black uppercase mb-4 italic">Leadership de Volum</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-6">Coordonarea a peste **30 de specialiști** per schimb. Focus pe training, siguranță și motivare, transformând diversitatea lingvistică într-un avantaj competitiv operativ.</p>
+            <div class="flex items-center text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                <i class="fas fa-users mr-2"></i> Human Capital ROI
+            </div>
+        </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-6 pb-20">
+        <div class="glass p-12 rounded-[4rem] relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-10 opacity-5 text-9xl font-black italic">Clockwork</div>
+            <h2 class="text-4xl font-black uppercase italic mb-12 tracking-tighter text-red-700">Ritmu Operativ: O Zi de Succes</h2>
+            
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="space-y-4">
+                    <span class="text-red-700 font-black">01. Setup</span>
+                    <h4 class="font-bold uppercase text-xs tracking-widest">Analiza & Briefing</h4>
+                    <p class="text-xs text-gray-500 leading-relaxed">Evaluarea obiectivelor zilei, verificarea sistemelor hardware și alinierea echipei pe prioritățile de vânzare.</p>
+                </div>
+                <div class="space-y-4 border-l border-white/5 pl-6">
+                    <span class="text-white font-black">02. Execution</span>
+                    <h4 class="font-bold uppercase text-xs tracking-widest">Peak Management</h4>
+                    <p class="text-xs text-gray-500 leading-relaxed">Monitorizarea activă a zonelor critice (Case, Fitting Rooms, Stock) și redistribuirea resurselor în timp real.</p>
+                </div>
+                <div class="space-y-4 border-l border-white/5 pl-6">
+                    <span class="text-white font-black">03. Audit</span>
+                    <h4 class="font-bold uppercase text-xs tracking-widest">Control Calitate</h4>
+                    <p class="text-xs text-gray-500 leading-relaxed">Verificarea standardelor vizuale și a integrității operaționale. Audit rapid pe stoc și proceduri de siguranță.</p>
+                </div>
+                <div class="space-y-4 border-l border-white/5 pl-6">
+                    <span class="text-white font-black">04. Report</span>
+                    <h4 class="font-bold uppercase text-xs tracking-widest">Debrifare & Handover</h4>
+                    <p class="text-xs text-gray-500 leading-relaxed">Analiza rezultatelor vs target, identificarea punctelor de îmbunătățire și predarea schimbului către echipa următoare.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-6 pb-40 grid md:grid-cols-2 gap-8">
+        <div class="glass p-10 rounded-[3rem] border-t-2 border-red-700">
+            <h3 class="text-2xl font-black uppercase mb-6 italic tracking-tighter">Troubleshooting în Timp Real</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                Am fost întotdeauna persoana apelată când sistemele eșuează. De la erori de server POS până la gestionarea conflictelor de echipă, abordarea mea este calmă și orientată spre soluție imediată. Într-un mediu ca Inditex, fiecare secundă de downtime înseamnă pierderi; misiunea mea este **Zero Downtime**.
+            </p>
+            <div class="flex gap-4">
+                <span class="bg-red-900/20 text-red-600 px-4 py-1 rounded-full text-[9px] font-bold uppercase">Rapid Response</span>
+                <span class="bg-white/5 text-gray-400 px-4 py-1 rounded-full text-[9px] font-bold uppercase">Conflict Resolution</span>
+            </div>
+        </div>
+
+        <div class="glass p-10 rounded-[3rem] border-t-2 border-white/5">
+            <h3 class="text-2xl font-black uppercase mb-6 italic tracking-tighter text-white">Viziunea: Retail-ul 4.0</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                Viitorul Inditex în Cluj nu este doar despre haine, ci despre date. Integrarea **RFID** și a sistemelor inteligente de inventar necesită un Operations Manager care înțelege tehnologia. Prin experiența mea cu **GetRoomzy**, aduc acea mentalitate de automatizare care eficientizează munca manuală.
+            </p>
+            <div class="flex gap-4">
+                <span class="bg-white/5 text-gray-400 px-4 py-1 rounded-full text-[9px] font-bold uppercase">RFID Ready</span>
+                <span class="bg-white/5 text-gray-400 px-4 py-1 rounded-full text-[9px] font-bold uppercase">Automation Mindset</span>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12 text-center text-gray-800 text-[10px] font-bold uppercase tracking-[0.5em]">
+        Cluj-Napoca • Arhitect al Eficienței • 2026
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baptiste Lotodé | Connect & Collaborate</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --crimson: #990000; --anthracite: #121212; }
+        body { background-color: var(--anthracite); color: #f8fafc; margin: 0; overflow-x: hidden; }
+        .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .text-outline { -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1); color: transparent; }
+        
+        /* Efect Pulsatoriu pentru disponibilitate */
+        .pulse-red {
+            animation: pulse-animation 2s infinite;
+        }
+
+        @keyframes pulse-animation {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(153, 0, 0, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(153, 0, 0, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(153, 0, 0, 0); }
+        }
+
+        /* Glow Effect pentru butoane */
+        .btn-glow:hover { box-shadow: 0 0 25px rgba(153, 0, 0, 0.5); transform: translateY(-2px); transition: all 0.3s ease; }
+        
+        .bg-grid {
+            background-image: radial-gradient(rgba(153, 0, 0, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased bg-grid">
+
+<nav class="fixed w-full z-50 py-6 px-10 bg-black/40 backdrop-blur-lg border-b border-white/5">
+    <div class="max-w-7xl mx-auto flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.3em]">
+        <a href="index.html" class="text-2xl font-black">BAPTISTE <span class="text-red-700">LOTODÉ</span></a>
+        <div class="hidden md:flex space-x-12 items-center">
+            <a href="index.html" class="hover:text-red-700 transition">Acasă</a>
+            <a href="management.html" class="hover:text-red-700 transition">Management</a>
+            <a href="operations.html" class="hover:text-red-700 transition">Operations</a>
+            <a href="game.html" class="hover:text-red-700 transition text-red-500 italic">Ops Challenge</a>
+            <a href="contact.html" class="text-red-700 border-b border-red-700 pb-1">Contact</a>
+        </div>
+    </div>
+</nav>
+
+    <header class="pt-48 pb-20 text-center relative">
+        <div class="absolute top-20 left-1/2 -translate-x-1/2 text-[15rem] font-black text-outline uppercase select-none pointer-events-none z-0">Network</div>
+        <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter italic z-10 relative">Să construim <br><span class="text-red-700">Viitorul</span></h1>
+        <p class="text-gray-500 mt-6 uppercase tracking-widest font-bold text-sm italic">Energie mediteraneeană și viziune strategică</p>
+    </header>
+
+    <section class="max-w-6xl mx-auto px-6 relative pb-40 grid md:grid-cols-2 gap-12">
+        
+        <div class="space-y-8">
+            <div class="glass p-10 rounded-[3rem]">
+                <h3 class="text-2xl font-black uppercase mb-6 italic tracking-tighter">Status Profesional</h3>
+                <p class="text-gray-400 text-sm leading-relaxed mb-8">
+                    Anii petrecuți în **Mallorca** mi-au modelat capacitatea de a lucra în medii vibrante și multiculturale, oferindu-mi o înțelegere profundă a ritmului și energiei specifice brandurilor spaniole. Sunt pregătit să aduc acest dinamism și experiența mea operativă în ecosistemul **Inditex Cluj**, asigurând succesul prin adaptabilitate și soluții rapide.
+                </p>
+                <div class="flex items-center gap-4 text-sm font-bold uppercase tracking-widest text-red-700">
+                    <span class="w-3 h-3 bg-red-700 rounded-full pulse-red"></span>
+                    Disponibil imediat în Cluj-Napoca
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4">
+                <a href="tel:+40751540449" class="glass p-6 rounded-2xl flex items-center justify-between group hover:bg-white/5 transition">
+                    <div class="flex items-center gap-4">
+                        <i class="fas fa-phone text-red-700"></i>
+                        <span class="text-sm font-bold uppercase tracking-widest">Telefon</span>
+                    </div>
+                    <span class="font-black group-hover:text-red-700 transition">+40 751 540 449</span>
+                </a>
+                <a href="mailto:b.lotode@gmail.com" class="glass p-6 rounded-2xl flex items-center justify-between group hover:bg-white/5 transition">
+                    <div class="flex items-center gap-4">
+                        <i class="fas fa-envelope text-red-700"></i>
+                        <span class="text-sm font-bold uppercase tracking-widest">Email</span>
+                    </div>
+                    <span class="font-black group-hover:text-red-700 transition lowercase">b.lotode@gmail.com</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="glass p-12 rounded-[4rem] border-l-4 border-red-700 flex flex-col justify-between shadow-2xl">
+            <div>
+                <h3 class="text-4xl font-black uppercase mb-8 italic tracking-tighter leading-none">The Global <br><span class="text-red-700">Advantage</span></h3>
+                <p class="text-gray-300 text-lg leading-relaxed italic mb-10">
+                    "Managementul este arta de a echilibra rigoarea proceselor cu pasiunea echipei."
+                </p>
+                <div class="space-y-4">
+                    <div class="flex justify-between border-b border-white/5 pb-2">
+                        <span class="text-xs font-bold uppercase text-gray-500">Nativă</span>
+                        <span class="text-xs font-black uppercase">Germană</span>
+                    </div>
+                    <div class="flex justify-between border-b border-white/5 pb-2">
+                        <span class="text-xs font-bold uppercase text-gray-500">Nivel C1</span>
+                        <span class="text-xs font-black uppercase">Engleză</span>
+                    </div>
+                    <div class="flex justify-between border-b border-white/5 pb-2">
+                        <span class="text-xs font-bold uppercase text-gray-500">Fluentă</span>
+                        <span class="text-xs font-black uppercase text-right">Spaniolă / Franceză / Română</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12">
+                <p class="text-[10px] text-gray-500 uppercase font-black tracking-[0.3em] mb-4">Gata pentru următorii pași</p>
+                <div class="flex gap-4">
+                    <a href="#" class="w-12 h-12 glass rounded-full flex items-center justify-center hover:text-red-700 transition"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="w-12 h-12 glass rounded-full flex items-center justify-center hover:text-red-700 transition"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="max-w-4xl mx-auto text-center pb-40">
+        <h2 class="text-3xl font-black uppercase italic mb-8">Ești gata să optimizăm operațiunile?</h2>
+        <a href="mailto:b.lotode@gmail.com" class="inline-block bg-white text-black px-16 py-6 rounded-2xl font-black uppercase text-sm btn-glow transition tracking-widest">Trimite un Email Acum</a>
+    </div>
+
+    <footer class="py-12 text-center text-gray-700 text-[10px] font-bold uppercase tracking-[0.6em]">
+        Cluj-Napoca • Arhitect al Eficienței • 2026
+    </footer>
+
+</body>
+</html>

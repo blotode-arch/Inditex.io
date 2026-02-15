@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baptiste Lotodé | Inovație & Retail Tech</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --crimson: #990000; --anthracite: #121212; }
+        body { background-color: var(--anthracite); color: #f8fafc; margin: 0; overflow-x: hidden; }
+        .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        
+        /* Textul de fundal cu efect de scânteie pe contur */
+        .text-outline-spark { 
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1); 
+            color: transparent; 
+            position: relative;
+        }
+
+        .spark-container {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Animația scânteii pe textul DIGITAL */
+        .spark {
+            position: absolute;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ffffff, transparent);
+            filter: blur(2px);
+            box-shadow: 0 0 20px #ffffff;
+            animation: spark-travel 4s linear infinite;
+        }
+
+        @keyframes spark-travel {
+            0% { transform: translateX(-50vw) translateY(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(50vw) translateY(0); opacity: 0; }
+        }
+
+        /* Pulsar dot pentru navigație */
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--crimson);
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            animation: pulse-red 2s infinite;
+        }
+
+        @keyframes pulse-red {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(153, 0, 0, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(153, 0, 0, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(153, 0, 0, 0); }
+        }
+
+        .progress-bar { height: 4px; background: var(--crimson); border-radius: 2px; position: relative; overflow: hidden; }
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shine 2s infinite;
+        }
+        @keyframes shine { 100% { left: 100%; } }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+<nav class="fixed w-full z-50 py-6 px-10 bg-black/40 backdrop-blur-lg border-b border-white/5">
+    <div class="max-w-7xl mx-auto flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.3em]">
+        <a href="index.html" class="text-2xl font-black tracking-tighter uppercase">Baptiste <span class="text-red-700">Lotodé</span></a>
+        <div class="hidden md:flex space-x-10 items-center">
+            <a href="management.html" class="hover:text-red-700 transition">Management</a>
+            <a href="operations.html" class="hover:text-red-700 transition">Operations</a>
+            <a href="tech.html" class="hover:text-red-700 transition">Inovație</a>
+            <a href="game.html" class="hover:text-red-700 transition text-red-500 italic">Ops Challenge</a>
+            <a href="contact.html" class="bg-red-700 text-white px-6 py-2 rounded-full hover:bg-white hover:text-red-700 transition">Contact</a>
+        </div>
+    </div>
+</nav>
+
+    <header class="pt-48 pb-20 text-center relative">
+        <div class="spark-container">
+            <div class="spark"></div>
+            <h2 class="text-[15rem] font-black text-outline-spark uppercase select-none pointer-events-none">Digital</h2>
+        </div>
+        <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter italic z-10 relative">Ecosistem <br><span class="text-red-700">Tehnologic</span></h1>
+        <p class="text-gray-500 mt-6 uppercase tracking-widest font-bold text-sm">Integrarea inovației digitale în managementul operativ</p>
+    </header>
+
+    <section class="max-w-6xl mx-auto px-6 relative pb-40">
+        <div class="relative mb-32">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="md:text-right">
+                    <span class="text-red-600 font-black text-2xl uppercase italic">Hardware & Depanare POS</span>
+                    <h3 class="text-3xl font-black uppercase mt-2">Suport Tehnic Operativ</h3>
+                </div>
+                <div class="glass p-10 rounded-[3rem] shadow-2xl">
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                        În anii petrecuți la <strong>McDonald's Krainz</strong>, am fost responsabil pentru menținerea fluxului tehnologic. Managementul unei locații de mare volum presupune abilitatea de a diagnostica și repara sisteme POS sau chioșcuri digitale sub presiunea timpului, asigurând continuitatea vânzărilor.
+                    </p>
+                    <ul class="space-y-4">
+                        <li>
+                            <div class="flex justify-between mb-1 text-[10px] uppercase font-bold tracking-widest text-gray-500"><span>Întreținere Sisteme POS & Hardware</span> <span>95%</span></div>
+                            <div class="progress-bar w-[95%]"></div>
+                        </li>
+                        <li>
+                            <div class="flex justify-between mb-1 text-[10px] uppercase font-bold tracking-widest text-gray-500"><span>Conectivitate Rețea & Server</span> <span>85%</span></div>
+                            <div class="progress-bar w-[85%]"></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="relative mb-32">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="md:order-2">
+                    <span class="text-white font-black text-2xl uppercase italic">Proiect Experimental</span>
+                    <h3 class="text-3xl font-black uppercase mt-2 text-red-700">Project: GetRoomzy</h3>
+                </div>
+                <div class="md:order-1 glass p-10 rounded-[3rem] border-r-4 border-red-700/40 text-right">
+                    <h4 class="text-sm font-black uppercase mb-4 text-white tracking-widest">E-commerce & Automatizare</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed italic mb-6">
+                        „GetRoomzy a fost un proiect experimental de dropshipping pentru printuri pe pânză. Deși este momentan în pauză, acest magazin mi-a permis să stăpânesc întregul ecosistem digital: de la fluxuri e-commerce și tehnologii de printing, până la integrarea AI și automatizarea proceselor pentru a elimina erorile umane”.
+                    </p>
+                    <div class="flex gap-4 justify-end">
+                        <span class="px-4 py-2 bg-white/5 rounded-full text-[10px] font-bold uppercase">Drop-shipping</span>
+                        <span class="px-4 py-2 bg-white/5 rounded-full text-[10px] font-bold uppercase">AI Optimization</span>
+                        <span class="px-4 py-2 bg-white/5 rounded-full text-[10px] font-bold uppercase">E-commerce</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="relative mb-32">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="md:text-right">
+                    <span class="text-gray-500 font-black text-2xl uppercase italic">Comunicare Globală</span>
+                    <h3 class="text-3xl font-black uppercase mt-2">Puntea Lingvistică</h3>
+                </div>
+                <div class="glass p-10 rounded-[3rem] shadow-2xl">
+                    <p class="text-gray-400 text-sm leading-relaxed mb-8">
+                        Capacitatea de a traduce concepte tehnice în instrucțiuni clare pentru echipă este susținută de profilul meu multilingv. Comunicarea eficientă este motorul succesului operativ.
+                    </p>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="text-center p-4 bg-white/5 rounded-2xl">
+                            <span class="block text-xl font-black text-red-700">NATIVĂ</span>
+                            <span class="text-[9px] uppercase font-bold text-gray-500 tracking-widest">Germană</span>
+                        </div>
+                        <div class="text-center p-4 bg-white/5 rounded-2xl">
+                            <span class="block text-xl font-black text-white">NIVEL C1</span>
+                            <span class="text-[9px] uppercase font-bold text-gray-500 tracking-widest">Engleză</span>
+                        </div>
+                        <div class="text-center p-4 bg-white/5 rounded-2xl col-span-2">
+                            <span class="block text-xl font-black text-white">FLUENTĂ</span>
+                            <span class="text-[9px] uppercase font-bold text-gray-500 tracking-widest">Spaniolă | Franceză | Română</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="max-w-4xl mx-auto mb-40 glass p-12 rounded-[4rem] text-center relative overflow-hidden">
+        <h4 class="text-2xl font-black uppercase italic mb-8 tracking-tighter">Pregătit pentru Ecosistemul Digital Inditex</h4>
+        <div class="flex flex-wrap justify-center gap-8 opacity-50">
+            <i class="fas fa-barcode text-3xl"></i>
+            <i class="fas fa-microchip text-3xl"></i>
+            <i class="fas fa-server text-3xl"></i>
+            <i class="fas fa-terminal text-3xl"></i>
+        </div>
+        <p class="mt-8 text-gray-500 text-xs uppercase font-bold tracking-widest">
+            Expertiză în procese digitale, de la RFID la managementul datelor în timp real.
+        </p>
+    </div>
+
+    <footer class="py-12 text-center text-gray-700 text-[10px] font-bold uppercase tracking-[0.5em]">
+        Baptiste Lotodé • Cluj-Napoca • 2026
+    </footer>
+
+</body>
+</html>

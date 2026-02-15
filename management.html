@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baptiste Lotodé | Arhitectul Eficienței - Timeline</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --crimson: #990000; --anthracite: #121212; }
+        body { background-color: var(--anthracite); color: #f8fafc; margin: 0; }
+        .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.07); }
+        .text-outline { -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1); color: transparent; }
+        
+        /* Linia Timeline */
+        .timeline-arrow {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #333 0%, var(--crimson) 15%, var(--crimson) 85%, #333 100%);
+            z-index: 0;
+        }
+        .arrow-head {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0; height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 20px solid var(--crimson);
+        }
+        
+        /* NEU: Pulsierender Timeline-Knoten */
+        .step-node {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 24px;
+            height: 24px;
+            background: var(--crimson);
+            border-radius: 50%;
+            z-index: 10;
+            box-shadow: 0 0 0 rgba(153, 0, 0, 0.4);
+            animation: pulse-red 2s infinite;
+        }
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(153, 0, 0, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(153, 0, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(153, 0, 0, 0); }
+        }
+    </style>
+</head>
+<body class="font-sans antialiased overflow-x-hidden">
+
+  <nav class="fixed w-full z-50 py-6 px-10 bg-black/40 backdrop-blur-lg border-b border-white/5">
+    <div class="max-w-7xl mx-auto flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.3em]">
+        <a href="index.html" class="text-2xl font-black tracking-tighter uppercase">Baptiste <span class="text-red-700">Lotodé</span></a>
+        <div class="hidden md:flex space-x-10 items-center">
+            <a href="management.html" class="hover:text-red-700 transition">Management</a>
+            <a href="operations.html" class="hover:text-red-700 transition">Operations</a>
+            <a href="tech.html" class="hover:text-red-700 transition">Inovație</a>
+            <a href="game.html" class="hover:text-red-700 transition text-red-500 italic">Ops Challenge</a>
+            <a href="contact.html" class="bg-red-700 text-white px-6 py-2 rounded-full hover:bg-white hover:text-red-700 transition">Contact</a>
+        </div>
+    </div>
+</nav>
+
+    <header class="pt-48 pb-20 text-center relative">
+        <div class="absolute top-20 left-1/2 -translate-x-1/2 text-[15rem] font-black text-outline uppercase select-none pointer-events-none z-0">Evoluție</div>
+        <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter italic z-10 relative">Excelența în <br><span class="text-red-700">Operațiuni</span></h1>
+        <p class="text-gray-500 mt-6 uppercase tracking-widest font-bold text-sm">O călătorie de 15 ani către leadership-ul de vârf</p>
+    </header>
+
+    <section class="max-w-6xl mx-auto px-6 relative pb-40">
+        <div class="timeline-arrow">
+            <div class="arrow-head"></div>
+        </div>
+
+        <div class="relative mb-32">
+            <div class="step-node" style="top: 0;"></div>
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="md:text-right pt-2">
+                    <span class="text-red-600 font-black text-2xl">2011 — 2012</span>
+                    <h3 class="text-xl font-black uppercase mt-2">Fundația Comercială</h3>
+                    <p class="text-gray-500 text-xs font-bold uppercase tracking-widest">Karlsruhe & Rastatt</p>
+                </div>
+                <div class="glass p-8 rounded-[2rem] shadow-2xl">
+                    <div class="space-y-4">
+                        <div class="border-l-2 border-white/10 pl-4">
+                            <h4 class="font-bold text-white uppercase text-sm">Barmer GEK | Economist Asigurări (Stagiu)</h4>
+                            <p class="text-gray-400 text-xs mt-1 italic">Comentariu: Prima incursiune în rigoarea administrativă germană. Am învățat importanța preciziei absolute în gestionarea datelor.</p>
+                        </div>
+                        <div class="border-l-2 border-white/10 pl-4">
+                            <h4 class="font-bold text-white uppercase text-sm">Merkur Akademie | Asistent Economic & Limbi Străine</h4>
+                            <p class="text-gray-400 text-xs mt-1 italic">Comentariu: Formare academică în business și limbi străine – baza teoretică solidă pentru tot ce a urmat.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="relative mb-32">
+            <div class="step-node" style="top: 0;"></div>
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="md:order-2 pt-2">
+                    <span class="text-white font-black text-2xl">2012 — 2014</span>
+                    <h3 class="text-xl font-black uppercase mt-2 text-red-700">Standarde Vizuale</h3>
+                    <p class="text-gray-500 text-xs font-bold uppercase tracking-widest">Experiență în Librării</p>
+                </div>
+                <div class="md:order-1 glass p-8 rounded-[2.5rem] shadow-2xl border-r-4 border-red-700/30">
+                    <div class="space-y-4">
+                        <div class="border-r-2 border-white/10 pr-4 text-right">
+                            <h4 class="font-bold text-white uppercase text-sm">Thalia Buchhandlung | Visual Merchandising</h4>
+                            <p class="text-gray-400 text-xs mt-1 italic">Comentariu: Evaluat ca "riguros și sistematic". Aici am înțeles că succesul în retail depinde de prezentarea strategică a produsului.</p>
+                        </div>
+                        <div class="border-r-2 border-white/10 pr-4 text-right">
+                            <h4 class="font-bold text-white uppercase text-sm">Sibylla Augusta | Economist & Allrounder</h4>
+                            <p class="text-gray-400 text-xs mt-1 italic">Comentariu: Managementul stocurilor și interacțiunea directă cu publicul într-un mediu comercial clasic.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="relative mb-32">
+            <div class="step-node" style="top: 0;"></div>
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="md:text-right pt-2">
+                    <span class="text-gray-500 font-black text-2xl italic">2015 — 2016</span>
+                    <h3 class="text-xl font-black uppercase mt-2">Reziliență & Siguranță</h3>
+                    <p class="text-gray-500 text-xs font-bold uppercase tracking-widest">Mehliskopf & Viena</p>
+                </div>
+                <div class="glass p-8 rounded-[2rem] shadow-2xl">
+                    <div class="space-y-4">
+                        <div class="border-l-2 border-red-700 pl-4">
+                            <h4 class="font-bold text-white uppercase text-sm">Mehliskopf | Coordonator Siguranță & Allrounder</h4>
+                            <p class="text-gray-400 text-xs mt-1 italic">Comentariu: Managementul riscului și responsabilitate maximă pentru siguranța publicului în medii dinamice.</p>
+                        </div>
+                        <div class="border-l-2 border-white/10 pl-4">
+                            <h4 class="font-bold text-white uppercase text-sm">Viena | Servicii & Cercetare</h4>
+                            <p class="text-gray-400 text-xs mt-1 italic">Comentariu: De la interviuri telefonice (Active Solution) la serviciu în locații precum Reigen sau Billiardcafe KÖÖ. Flexibilitate culturală totală.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="relative mb-32">
+            <div class="step-node" style="top: 0;"></div>
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="md:order-2 pt-2">
+                    <span class="text-white font-black text-2xl">2016 — 2019</span>
+                    <h3 class="text-xl font-black uppercase mt-2">High-Volume Berlin</h3>
+                    <p class="text-gray-500 text-xs font-bold uppercase tracking-widest">Servicii VIP & Ospitalitate</p>
+                </div>
+                <div class="md:order-1 glass p-10 rounded-[3rem] shadow-2xl text-right bg-gradient-to-l from-red-900/10 to-transparent">
+                    <h4 class="font-black text-white uppercase mb-4 tracking-tighter italic">Performanță sub presiune constantă</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed italic mb-4">
+                        „Berlin nu iartă greșelile. În locații precum Café am Neuen See, Grand Rocka sau Maredo, am servit diplomați și mii de turiști zilnic. Aici am învățat multitasking-ul de elită și discreția protocolară.”
+                    </p>
+                    <div class="flex flex-wrap gap-2 justify-end">
+                        <span class="px-3 py-1 bg-black/50 rounded-lg text-[9px] font-bold text-red-500">CAFE AM NEUEN SEE</span>
+                        <span class="px-3 py-1 bg-black/50 rounded-lg text-[9px] font-bold text-gray-500">GRAND ROCKA</span>
+                        <span class="px-3 py-1 bg-black/50 rounded-lg text-[9px] font-bold text-gray-500">MAREDO</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="relative mb-32">
+            <div class="step-node" style="top: 0;"></div>
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="md:text-right pt-2">
+                    <span class="text-red-700 font-black text-3xl">2019 — 2025</span>
+                    <h3 class="text-3xl font-black uppercase mt-2">Store Management</h3>
+                    <p class="text-gray-500 text-xs font-bold uppercase tracking-widest">Krainz Systemgastronomie</p>
+                </div>
+                <div class="glass p-12 rounded-[3.5rem] shadow-2xl border-t-4 border-red-700">
+                    <h4 class="text-xl font-black uppercase mb-6 text-white tracking-widest">Arhitectul Eficienței în Acțiune</h4>
+                    <p class="text-gray-300 text-base leading-relaxed mb-10">
+                        Cea mai complexă etapă a carierei mele. În calitate de <strong>Junior Store Manager</strong>, am fost direct responsabil pentru performanța a peste 30 de angajați, gestionând fluxuri de numerar masive și asigurând conformitatea 100% cu standardele internaționale de calitate și auditurile HACCP.
+                    </p>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="bg-white/5 p-6 rounded-3xl border border-white/5">
+                            <span class="block text-4xl font-black italic text-red-700">30+</span>
+                            <span class="text-[10px] uppercase font-bold text-gray-500">Angajați / Schimb</span>
+                        </div>
+                        <div class="bg-white/5 p-6 rounded-3xl border border-white/5">
+                            <span class="block text-4xl font-black italic text-white">SLA/KPI</span>
+                            <span class="text-[10px] uppercase font-bold text-gray-500">Focus pe Performanță</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <footer class="py-20 text-center text-gray-700 text-[10px] font-bold uppercase tracking-[0.5em]">
+        Cluj-Napoca • Arhitect al Eficienței • 2026
+    </footer>
+
+</body>
+</html>

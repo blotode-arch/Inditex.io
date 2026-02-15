@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baptiste Lotodé | Arhitect al Eficienței</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --crimson: #990000; --anthracite: #121212; }
+        body { background-color: var(--anthracite); color: #ffffff; margin: 0; overflow-x: hidden; }
+        
+        .anthracite-bg {
+            background: radial-gradient(circle at 20% 20%, #1a1a1a 0%, #121212 100%);
+            min-height: 100vh;
+        }
+
+        /* Velocity Text: Slide-In Animation */
+        .velocity-text { 
+            -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.15); 
+            color: transparent; 
+            font-size: 22rem;
+            position: absolute;
+            top: 50%;
+            left: -120%;
+            transform: translateY(-50%);
+            white-space: nowrap;
+            z-index: 0;
+            animation: slideIn 1.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            animation-delay: 0.3s;
+        }
+        @keyframes slideIn { to { left: -8%; } }
+
+        .dark-glass { 
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(15px); 
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+        }
+
+        /* NEU: Pulsierender Foto-Glow */
+        .photo-glow { 
+            border: 3px solid var(--crimson); 
+            box-shadow: 0 0 50px rgba(153, 0, 0, 0.3); 
+            animation: pulse-red-border 3s infinite ease-in-out;
+        }
+        @keyframes pulse-red-border {
+            0% { box-shadow: 0 0 50px rgba(153, 0, 0, 0.3); border-color: var(--crimson); }
+            50% { box-shadow: 0 0 80px rgba(220, 20, 60, 0.6); border-color: #ff0000; }
+            100% { box-shadow: 0 0 50px rgba(153, 0, 0, 0.3); border-color: var(--crimson); }
+        }
+
+        /* NEU: Pulsierender Terminal-Punkt */
+        .pulse-dot { animation: pulse-dot-red 2s infinite; }
+        @keyframes pulse-dot-red {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .cursor { border-right: 2px solid var(--crimson); animation: blink 1s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    </style>
+</head>
+<body class="anthracite-bg font-sans">
+
+<nav class="fixed w-full z-50 py-6 px-10 bg-black/40 backdrop-blur-lg border-b border-white/5">
+    <div class="max-w-7xl mx-auto flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.3em]">
+        <a href="index.html" class="text-2xl font-black tracking-tighter uppercase">Baptiste <span class="text-red-700">Lotodé</span></a>
+        <div class="hidden md:flex space-x-10 items-center">
+            <a href="management.html" class="hover:text-red-700 transition">Management</a>
+            <a href="operations.html" class="hover:text-red-700 transition">Operations</a>
+            <a href="tech.html" class="hover:text-red-700 transition">Inovație</a>
+            <a href="game.html" class="hover:text-red-700 transition text-red-500 italic">Ops Challenge</a>
+            <a href="contact.html" class="bg-red-700 text-white px-6 py-2 rounded-full hover:bg-white hover:text-red-700 transition">Contact</a>
+        </div>
+    </div>
+</nav>
+
+    <main class="relative pt-48 pb-20 px-6 max-w-7xl mx-auto grid md:grid-cols-2 gap-20 items-center min-h-screen">
+        <div class="velocity-text font-black uppercase select-none pointer-events-none">Velocity</div>
+
+        <div class="z-10">
+            <div class="dark-glass p-6 rounded-3xl w-full max-w-sm mb-12 font-mono text-[11px] shadow-2xl min-h-[130px]">
+                <div class="flex space-x-2 mb-4">
+                    <div class="w-3 h-3 bg-red-700 rounded-full pulse-dot"></div>
+                    <div class="w-2 h-2 bg-gray-800 rounded-full"></div>
+                    <div class="w-2 h-2 bg-gray-800 rounded-full"></div>
+                </div>
+                <div id="terminal-text" class="space-y-1"></div>
+                <p class="text-white mt-1">root@baptiste:~$ <span class="cursor"></span></p>
+            </div>
+
+            <h1 class="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] mb-10">
+                Architect <br><span class="text-red-700 italic">Efficiency</span>
+            </h1>
+            
+            <div class="space-y-6 text-gray-400 max-w-lg mb-12 border-l-4 border-red-700 pl-8">
+                <p class="text-xl leading-relaxed italic text-white">
+                    "Sunt condus de provocarea de a rezolva probleme în timp real, ajutând oamenii și asigurând funcționarea fluidă a sistemelor."
+                </p>
+                <p class="text-sm leading-relaxed">
+                    Ca un „Trendsetter Operațional”, aduc precizia germană și spiritul inovator al Clujului în managementul high-volume. Cu experiență în coordonarea a peste 30 de angajați, mă concentrez pe transformarea complexității în performanță pură pentru echipa Inditex.
+                </p>
+            </div>
+
+            <a href="management.html" class="inline-block bg-white text-black px-12 py-5 rounded-2xl font-black uppercase text-sm hover:bg-red-700 hover:text-white transition shadow-2xl">Explorează Portofoliul</a>
+        </div>
+
+        <div class="z-10 space-y-12">
+            <div class="flex justify-center">
+                <div class="w-80 h-80 rounded-full photo-glow overflow-hidden bg-gray-900 border-4 border-white/10 relative">
+                    <img src="me.jpg" alt="Baptiste Lotodé" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 flex items-center justify-center bg-gray-900 text-gray-800 -z-10">
+                        <i class="fas fa-user-tie text-8xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="dark-glass p-10 rounded-[2.5rem] text-center border-t border-red-700/30">
+                    <span class="block text-6xl font-black text-white">30+</span>
+                    <span class="text-[11px] uppercase font-bold text-red-600 tracking-widest">Team Size</span>
+                </div>
+                <div class="dark-glass p-10 rounded-[2.5rem] text-center border-t border-white/5">
+                    <span class="block text-6xl font-black text-white">5+</span>
+                    <span class="text-[11px] uppercase font-bold text-gray-500 tracking-widest">Ani Leadership</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const terminal = document.getElementById('terminal-text');
+        /* BEREINIGTES SCRIPT (Keine Cites mehr) */
+        const lines = [
+            { text: ">> status: OPERATIONAL_ELITE", color: "text-red-600" },
+            { text: ">> target: Inditex Cluj-Napoca", color: "text-white" },
+            { text: ">> mission: Problem-Solving", color: "text-gray-400" }
+        ];
+
+        let lineIdx = 0, charIdx = 0;
+
+        function type() {
+            if (lineIdx < lines.length) {
+                if (charIdx === 0) {
+                    const p = document.createElement('p');
+                    p.className = lines[lineIdx].color;
+                    terminal.appendChild(p);
+                }
+                terminal.lastChild.textContent += lines[lineIdx].text[charIdx];
+                charIdx++;
+                if (charIdx < lines[lineIdx].text.length) {
+                    setTimeout(type, 35);
+                } else {
+                    lineIdx++;
+                    charIdx = 0;
+                    setTimeout(type, 500);
+                }
+            }
+        }
+        window.onload = type;
+    </script>
+
+</body>
+</html>
