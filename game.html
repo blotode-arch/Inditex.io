@@ -9,7 +9,7 @@
     <style>
         :root { --crimson: #990000; --anthracite: #121212; --success: #10b981; --warning: #f59e0b; }
         
-        /* FIX: overflow-y: auto erlaubt das Scrollen. min-height sorgt für korrekten Hintergrund. */
+        /* FIX: overflow-y: auto erlaubt das Scrollen auf mobilen Geräten */
         body { 
             background-color: var(--anthracite); 
             color: #f8fafc; 
@@ -30,6 +30,11 @@
             animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 25px 60px rgba(0,0,0,0.8);
         }
+
+        /* Anpassung für sehr schmale Handys, damit Fenster nicht rechts rausragen */
+        @media (max-width: 400px) {
+            .problem-window { width: 300px; }
+        }
         
         @keyframes slideIn { from { opacity: 0; transform: scale(0.9) translateY(30px); } to { opacity: 1; transform: scale(1) translateY(0); } }
         
@@ -39,7 +44,7 @@
         .choice-btn::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); transition: 0.5s; }
         .choice-btn:hover::after { left: 100%; }
         
-        /* Feedback-Animationen (Erschütterung und schwebender Text) */
+        /* Feedback-Animationen */
         @keyframes screenShake {
             0%, 100% { transform: translateX(0); }
             20%, 60% { transform: translateX(-10px); }
@@ -58,11 +63,11 @@
 
         @keyframes timerBar { from { width: 100%; } to { width: 0%; } }
 
-        /* CRT-Scanline-Effekt für Monitor-Optik */
+        /* CRT-Scanline-Effekt */
         .scanline { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02)); background-size: 100% 2px, 3px 100%; pointer-events: none; z-index: 50; }
     </style>
 </head>
-<body class="flex flex-col" id="main-body">
+<body class="flex flex-col min-h-screen" id="main-body">
 
     <div class="scanline"></div>
 
@@ -87,6 +92,7 @@
         </div>
     </nav>
 
+    <!-- FIX: overflow-hidden entfernt, damit man auf dem Handy runterwischen kann -->
     <main class="flex-grow pt-32 flex flex-col items-center relative px-4">
         <div class="absolute top-60 left-1/2 -translate-x-1/2 text-[10rem] md:text-[15rem] font-black text-outline uppercase select-none pointer-events-none z-0">Eficiență</div>
 
@@ -117,7 +123,7 @@
                     <div class="w-24 h-24 bg-red-700/20 rounded-full flex items-center justify-center mx-auto mb-8 animate-pulse">
                         <i class="fas fa-bolt text-red-700 text-4xl"></i>
                     </div>
-                    <h2 class="text-5xl font-black uppercase italic mb-6 tracking-tighter">QSR Shift Simulator</h2>
+                    <h2 class="text-5xl font-black uppercase italic mb-6 tracking-tighter text-white">QSR Shift Simulator</h2>
                     
                     <div class="text-left space-y-4 mb-10 text-gray-400 text-sm">
                         <p class="flex items-center"><i class="fas fa-bolt text-red-700 mr-3"></i> <strong>Misiune:</strong> Gestionează incidentele critice dintr-o bucătărie sub presiune.</p>
@@ -126,7 +132,7 @@
                         <p class="flex items-center"><i class="fas fa-brain text-red-700 mr-3"></i> <strong>Prioritizare:</strong> Alege ce problemă rezolvi prima dată înainte ca timpul să expire!</p>
                     </div>
 
-                    <button onclick="initGame()" class="group relative bg-white text-black px-20 py-7 rounded-2xl font-black uppercase text-xs hover:bg-red-700 hover:text-white transition-all tracking-widest overflow-hidden">
+                    <button onclick="initGame()" class="group relative bg-white text-black px-20 py-7 rounded-2xl font-black uppercase text-xs hover:bg-red-700 hover:text-white transition-all tracking-widest overflow-hidden active:scale-95">
                         <span class="relative z-10">Începe Schimbul</span>
                         <div class="absolute inset-0 bg-red-700 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
                     </button>
@@ -144,7 +150,7 @@
         let activeIntervals = [];
         let lastFiveIds = [];
 
-        // Umfangreiche Aufgabenliste (30 Szenarien)
+        // Umfangreiche Aufgabenliste (Alle 30 Szenarien)
         const problems = [
             { id: 1, title: "Drive-Thru Blocat", text: "Coada de mașini depășește 10 minute.", options: ["Deschide a doua fereastră", "Ignoră și continuă lobby", "Cere clienților să aștepte"], correct: 0, points: 20 },
             { id: 2, title: "Friteuză Defectă", text: "Friteuza principală s-a oprit în vârf de prânz.", options: ["Cheamă mentenanța & Ajustează meniul", "Închide restaurantul", "Folosește friteuza de rezervă mică"], correct: 0, points: 25 },
@@ -153,7 +159,7 @@
             { id: 5, title: "Plângere Client", text: "Clientul reclamă cartofi prăjiți reci.", options: ["Înlocuiește imediat & Scuze", "Spune că sunt proaspeți", "Oferă doar banii înapoi"], correct: 0, points: 15 },
             { id: 6, title: "Echipă Incompletă", text: "Doi angajați au întârziat la schimbul de prânz.", options: ["Cross-training: Re-alocă echipa", "Închide Drive-Thru", "Lucrează singur pe toate zonele"], correct: 0, points: 25 },
             { id: 7, title: "Lobby Murdar", text: "S-a vărsat o băutură pe coridorul principal.", options: ["Securizezi zona & Curăță imediat", "Așteaptă firma de curățenie", "Pune doar un semn galben"], correct: 0, points: 20 },
-            { id: 8, title: "Livrare Întârziată", text: "Camionul cu marfă proaspătă întârzie 2 ore.", options: ["Verifică stocul de siguranță", "Anulează toate comenzile", "Trimite angajații acasă"], correct: 0, points: 20 },
+            { id: 8, title: "Livrare Întârziată", text: "Camionul mit Frischware verspätet sich um 2 ore.", options: ["Verifică stocul de siguranță", "Anulează toate comenzile", "Trimite angajații acasă"], correct: 0, points: 20 },
             { id: 9, title: "Control Pierderi", text: "Nivelul de 'Waste' la bin este prea mare.", options: ["Verifică timpii de gătire (hold)", "Nu mai găti deloc", "Aruncă totul la gunoi ascuns"], correct: 0, points: 25 },
             { id: 10, title: "Vârf de Prânz", text: "Aflux masiv de clienți neașteptat.", options: ["Toți la posturi (All Hands)", "Ia pauză acum", "Servește doar clienții VIP"], correct: 0, points: 15 },
             { id: 11, title: "Sistem Plată Defect", text: "Terminalele de card nu funcționează.", options: ["Anunță clienții imediat & IT", "Spune-le la final", "Închide restaurantul"], correct: 0, points: 25 },
@@ -226,10 +232,8 @@
                     x: parseInt(win.style.left),
                     y: parseInt(win.style.top),
                     w: 350,
-                    h: 320 // Geschätzte Höhe inkl. Padding
+                    h: 320 
                 };
-                
-                // Rechteck-Kollision mit kleinem Puffer
                 if (newX < rect.x + rect.w + 20 &&
                     newX + newW + 20 > rect.x &&
                     newY < rect.y + rect.h + 20 &&
@@ -253,7 +257,6 @@
             let foundSpot = false;
             let attempts = 0;
 
-            // Suche nach einem freien Platz (maximal 15 Versuche)
             while (!foundSpot && attempts < 15) {
                 finalX = Math.random() * (canvasWidth - winW - 20) + 10;
                 finalY = Math.random() * (canvasHeight - winH - 20) + 10;
@@ -382,11 +385,11 @@
             else { rank = "Ești Concediat!"; color = "text-red-600 animate-pulse"; }
 
             document.getElementById('game-canvas').innerHTML = `
-                <div class="absolute inset-0 flex items-center justify-center">
-                    <div class="glass-heavy p-20 rounded-[4rem] text-center border-2 border-red-700/30 shadow-2xl max-w-lg">
-                        <h2 class="text-6xl font-black uppercase italic mb-6 ${color} tracking-tighter">${rank}</h2>
+                <div class="absolute inset-0 flex items-center justify-center p-4">
+                    <div class="glass-heavy p-10 md:p-20 rounded-[3rem] md:rounded-[4rem] text-center border-2 border-red-700/30 shadow-2xl max-w-lg">
+                        <h2 class="text-4xl md:text-6xl font-black uppercase italic mb-6 ${color} tracking-tighter">${rank}</h2>
                         <p class="text-gray-400 mb-12 font-bold uppercase tracking-widest text-sm leading-relaxed">${msg}<br>Scor Final: ${score}</p>
-                        <button onclick="location.reload()" class="bg-white text-black px-16 py-6 rounded-2xl font-black uppercase text-xs hover:bg-red-700 hover:text-white transition-all tracking-widest">Reîncepe Schimbul</button>
+                        <button onclick="location.reload()" class="bg-white text-black px-16 py-6 rounded-2xl font-black uppercase text-xs hover:bg-red-700 hover:text-white transition-all tracking-widest">Reîncepe</button>
                     </div>
                 </div>
             `;
