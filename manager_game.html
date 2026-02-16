@@ -8,7 +8,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --crimson: #990000; --anthracite: #0d0d0d; --glass-border: rgba(255, 255, 255, 0.08); }
-        body { background-color: var(--anthracite); color: #f8fafc; margin: 0; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        
+        /* FIX: overflow-y: auto statt hidden, damit man auf dem Handy wischen kann */
+        body { 
+            background-color: var(--anthracite); 
+            color: #f8fafc; 
+            margin: 0; 
+            font-family: 'Inter', sans-serif; 
+            overflow-x: hidden; 
+            overflow-y: auto; 
+            min-height: 100vh;
+        }
         
         /* Glassmorphism UI Komponenten */
         .glass-panel { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(25px); border: 1px solid var(--glass-border); }
@@ -27,11 +37,14 @@
         @keyframes floatText { 0% { opacity: 0; transform: translateY(0); } 20% { opacity: 1; } 100% { opacity: 0; transform: translateY(-100px); } }
         .floating-feedback { position: fixed; pointer-events: none; z-index: 100; font-weight: 900; font-style: italic; animation: floatText 1s ease-out forwards; }
         
+        /* FIX: overflow-y: auto für das Start-Overlay, damit man zum Button scrollen kann */
         .start-overlay {
             position: fixed; inset: 0; z-index: 100;
             background: radial-gradient(circle at center, #1a1a1a 0%, #0d0d0d 100%);
             display: flex; align-items: center; justify-content: center;
             transition: opacity 0.8s ease;
+            overflow-y: auto;
+            padding: 20px 0;
         }
 
         .audio-toggle {
@@ -59,10 +72,8 @@
     <!-- Audio Engine -->
     <audio id="bg-music" loop preload="auto">
         <source src="bg_music.mp3" type="audio/mpeg">
-        <!-- Fallback auf einen Cyberpunk-ähnlichen Ambient Track -->
         <source src="https://assets.mixkit.co/music/preview/mixkit-tech-house-vibes-130.mp3" type="audio/mpeg">
     </audio>
-    <!-- Kurze Click-Sounds für alle Aktionen -->
     <audio id="snd-click" preload="auto" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
 
     <div id="mute-btn" class="audio-toggle" onclick="toggleMusic()">
@@ -71,7 +82,7 @@
 
     <!-- Start Screen Overlay -->
     <div id="start-screen" class="start-overlay p-6">
-        <div class="max-w-3xl glass-panel p-12 rounded-[4rem] text-center shadow-2xl border-t-2 border-white/10">
+        <div class="max-w-3xl glass-panel p-12 rounded-[4rem] text-center shadow-2xl border-t-2 border-white/10 my-auto">
             <div class="w-20 h-20 bg-red-700/20 rounded-full flex items-center justify-center mx-auto mb-8 animate-pulse">
                 <i class="fas fa-hamburger text-red-700 text-3xl"></i>
             </div>
@@ -110,22 +121,19 @@
     </div>
 
     <!-- Navigation -->
-<nav class="fixed w-full z-50 py-6 px-10 bg-black/60 backdrop-blur-lg border-b border-white/5">
-    <div class="max-w-7xl mx-auto flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.3em]">
-        <a href="index.html" class="text-2xl font-black tracking-tighter uppercase text-white">
-            Baptiste <span class="text-red-700">Lotodé</span>
-        </a>
-        <div class="hidden md:flex space-x-8 items-center text-gray-400">
-            <a href="management.html" class="hover:text-red-700 transition">Management</a>
-            <a href="operations.html" class="hover:text-red-700 transition">Operations</a>
-            <a href="tech.html" class="hover:text-red-700 transition">Inovație</a>
-            <!-- Links zu den beiden Spielen -->
-            <a href="game.html" class="hover:text-red-700 transition italic">Ops Challenge</a>
-            <a href="manager_game.html" class="hover:text-red-700 transition text-red-500 italic">KPI Mastermind</a>
-            <a href="contact.html" class="bg-red-700 text-white px-6 py-2 rounded-full hover:bg-white hover:text-red-700 transition">Contact</a>
+    <nav class="fixed w-full z-50 py-6 px-10 bg-black/60 backdrop-blur-lg border-b border-white/5">
+        <div class="max-w-7xl mx-auto flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.3em]">
+            <a href="index.html" class="text-2xl font-black tracking-tighter uppercase text-white">Baptiste <span class="text-red-700">Lotodé</span></a>
+            <div class="hidden md:flex space-x-8 items-center text-gray-400">
+                <a href="management.html" class="hover:text-red-700 transition">Management</a>
+                <a href="operations.html" class="hover:text-red-700 transition">Operations</a>
+                <a href="tech.html" class="hover:text-red-700 transition">Inovație</a>
+                <a href="game.html" class="hover:text-red-700 transition italic">Ops Challenge</a>
+                <a href="manager_game.html" class="hover:text-red-700 transition text-red-500 italic">KPI Mastermind</a>
+                <a href="contact.html" class="bg-red-700 text-white px-6 py-2 rounded-full hover:bg-white hover:text-red-700 transition">Contact</a>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
     <main class="flex-grow pt-32 px-6 max-w-7xl mx-auto w-full pb-20">
         <!-- Dashboard Summary -->
@@ -257,7 +265,7 @@
             { id: 7, title: "Peak Season: Monopoly", desc: "Începe campania Monopoly. Cum pregătești restaurantul?", options: [
                 { text: "Full Prep: Suplimentăm stocul și staff-ul.", impact: { budget: -3000, profit: 5000, morale: -15, sla: 15 }, log: "Vânzări record. Succes comercial major." },
                 { text: "Lean Launch: Fără ore suplimentare.", impact: { budget: 0, profit: 2000, morale: -30, sla: -40 }, log: "Haos în restaurant. Clienți nemulțumiți." },
-                { text: "Digital Focus: Oferte App Exclusive.", impact: { budget: -1000, profit: 3000, morale: 5, sla: 10 }, log: "Viteza digitală a salvat situația." }
+                { text: "Digital Only: Oferte App Exclusive.", impact: { budget: -1000, profit: 3000, morale: 5, sla: 10 }, log: "Viteza digitală a salvat situația." }
             ]},
             { id: 8, title: "Sustenabilitate (Recycling)", desc: "Introducem sortarea selectivă a deșeurilor în lobby.", options: [
                 { text: "Smart Bins: Investiție în stații moderne.", impact: { budget: -2500, profit: 1200, morale: 10, sla: 0 }, log: "Imagine de brand excelentă. Reducem taxa de mediu." },
@@ -265,7 +273,7 @@
                 { text: "Postere de conștientizare clienți.", impact: { budget: -500, profit: 200, morale: 5, sla: 5 }, log: "Efort vizual bun, rezultate minime." }
             ]},
             { id: 9, title: "Incentive & OSAT Score", desc: "Decizi distribuirea bonusurilor bazate pe OSAT (Satisfacție Client).", options: [
-                { text: "Balanced: Bonus pentru scor > 80%.", impact: { budget: -1500, profit: 400, morale: 20, sla: 20 }, log: "Echipa oferă servicii excelente pentru bonus." },
+                { text: "Balanced: Bonus pentru scor > 80%.", impact: { budget: -1500, profit: 400, morale: 20, sla: 20 }, log: "Echipa este motivată să ofere servicii excelente pentru bonus." },
                 { text: "Financial: Bonus fix pentru tot staff-ul.", impact: { budget: -3000, profit: 0, morale: 40, sla: 5 }, log: "Moral maxim, impact financiar sever." },
                 { text: "Reinvestiție în mentenanță echipamente.", impact: { budget: 1000, profit: 1200, morale: -30, sla: 10 }, log: "Echipamente noi, dar moral scăzut." }
             ]},
@@ -288,7 +296,7 @@
 
         const events = [
             { title: "Defecțiune Grill", desc: "Grill-ul s-a oprit în rush. Timp dublu de servire.", impact: { budget: -1500, sla: -25, morale: -10 } },
-            { title: "Viral pe TikTok", desc: "Store-ul tău a fost lăudat online. Trafic masiv!", impact: { profit: 4000, sla: -20, morale: -15 } },
+            { title: "Viral pe TikTok", desc: "Store-ul tău a fost lăudat online. Trafic imens!", impact: { profit: 4000, sla: -20, morale: -15 } },
             { title: "Întârziere Havi", desc: "Camionul cu marfă proaspătă întârzie 24h.", impact: { profit: -2500, sla: -30, morale: -5 } },
             { title: "Feedback OSAT 100%", desc: "Am primit scor maxim de la clienți azi!", impact: { morale: 20, sla: 10, profit: 1000 } }
         ];
@@ -448,7 +456,6 @@
         function triggerRandomEvent() {
             state.awaitingAcknowledge = true;
             const ev = events[Math.floor(Math.random() * events.length)];
-            // Kurzer Click statt Sirene
             document.getElementById('snd-click').play().catch(()=>{});
             document.getElementById('alert-zone').classList.remove('hidden');
             document.getElementById('event-title').innerText = `URGENT: ${ev.title}`;
@@ -483,5 +490,4 @@
         }
     </script>
 </body>
-
 </html>
